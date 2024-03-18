@@ -43,6 +43,16 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// CORS configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 
 //! new
 // AddScoped<>
@@ -101,6 +111,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
