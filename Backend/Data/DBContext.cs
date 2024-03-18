@@ -32,7 +32,8 @@ namespace Backend.Data
             };
             admin.PasswordHash = passwordHasher.HashPassword(admin, "Admin123");
             builder.Entity<ApplicationUser>().HasData(admin);
-        }
+
+            }
 
     }
 }
