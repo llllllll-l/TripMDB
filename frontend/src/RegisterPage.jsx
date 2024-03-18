@@ -31,11 +31,11 @@ function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Username:</label>
+            <label htmlFor="username">Username:</label>
             <input
               type="text"
-              id="email"
-              value={email}
+              id="username"
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
@@ -50,7 +50,7 @@ function RegisterPage() {
               required
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit">Register</button>
         </form>
       </div>
     </>
