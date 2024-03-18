@@ -118,6 +118,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.ConfigureAuthApi();
+app.ConfigureMovieApi();
+app.ConfigureLocationApi();
+app.ConfigureTripsApi();
+app.ConfigureMovieLocationApi();
 
 app.MapControllers();
 
