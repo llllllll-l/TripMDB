@@ -11,7 +11,8 @@ namespace Backend.Endpoints
 
         public static void ConfigureAuthApi(this WebApplication app)
         {
-            app.MapPost("/sign-in", Login);
+            var authGroup = app.MapGroup("authentication");
+            authGroup.MapPost("/login", Login);
         }
 
 

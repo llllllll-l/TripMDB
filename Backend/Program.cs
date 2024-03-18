@@ -1,5 +1,6 @@
 using System.Text;
 using Backend.Data;
+using Backend.Endpoints;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -103,6 +104,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.ConfigureAuthApi();
 
 app.MapControllers();
 
