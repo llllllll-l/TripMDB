@@ -4,12 +4,11 @@ using Backend.Payloads;
 using Backend.Services;
 using Microsoft.AspNetCore.Identity;
 using static Backend.Payloads.AuthPayload;
-
+using Backend.Repositories;
 namespace Backend.Endpoints
 {
     public static class MovieApi
     {
-
         public static void ConfigureMovieApi(this WebApplication app)
         {
             var authGroup = app.MapGroup("movies");
@@ -23,9 +22,12 @@ namespace Backend.Endpoints
         }
 
         /*TODO: Make admin required */
-        public static async Task<IResult> AddMovie(MoviePostPayload payload)
+        public static async Task<IResult> AddMovie(IMovieRepository movieRepository, MoviePostPayload payload)
         {
-            return TypedResults.BadRequest();
+            
+            Movie? movie = await movieRepository.AddMovie(payload);
+
+            return TypedResults.Created("created", movie);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Text;
 using Backend.Data;
 using Backend.Endpoints;
 using Backend.Models;
+using Backend.Repositories;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -57,6 +58,8 @@ builder.Services.AddCors(options =>
 //! new
 // AddScoped<>
 builder.Services.AddScoped<TokenService, TokenService>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
 builder.Services.AddDbContext<DBContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));

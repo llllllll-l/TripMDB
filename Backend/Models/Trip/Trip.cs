@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    [Table("trip")]
+    [Table("trips")]
     public class Trip
     {
         [Column("id")]
         public int Id { get; set; }
         [Column("user_id")]
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; } // Foreign key property for ApplicationUser
+        public ApplicationUser User { get; set; }
         [Column("movie_id")]
         public int MovieId { get; set; }
         public Movie Movie { get; set; }

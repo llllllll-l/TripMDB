@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    [Table("location")]
+    [Table("locations")]
     public class Location()
     {
         [Column("id")]
