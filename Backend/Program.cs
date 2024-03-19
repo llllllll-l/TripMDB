@@ -2,8 +2,10 @@ using System.Text;
 using Backend.Data;
 using Backend.Endpoints;
 using Backend.Models;
+using Backend.Repositories;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +59,11 @@ builder.Services.AddCors(options =>
 //! new
 // AddScoped<>
 builder.Services.AddScoped<TokenService, TokenService>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IMovieLocationRepository, MovieLocationRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
+
 builder.Services.AddDbContext<DBContext>(option =>
 {
     option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
@@ -118,6 +125,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.ConfigureAuthApi();
+app.ConfigureMovieApi();
+app.ConfigureLocationApi();
+app.ConfigureTripsApi();
+app.ConfigureMovieLocationApi();
 
 app.MapControllers();
 

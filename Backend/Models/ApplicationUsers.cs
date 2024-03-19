@@ -9,5 +9,7 @@ namespace Backend.Models
     {
         [Column("Role")]
         public UserRoles Role { get; set; }  
+        // Navigation property for the one-to-many relationship
+        public List<Trip>? Trips { get; set; }
     }
 }
