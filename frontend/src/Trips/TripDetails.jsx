@@ -5,12 +5,13 @@ import trips from '../utils/trips';
 
 function TripDetails() { //add user as prop,
     //and access trips through user
+    const [trips, setTrips] = 
 
     // used to navigate back home
-    const navigate = useNavigate();
-    const navigateToHome = () => {
-        navigate('/home');
-      };
+    // const navigate = useNavigate();
+    // const navigateToHome = () => {
+    //     navigate('/home');
+    //   };
     
     return (
     <div className="movie-details">
