@@ -1,6 +1,7 @@
 using Backend.Enums;
 using Backend.Models;
 using Backend.Payloads;
+using Backend.Repositories;
 using Backend.Services;
 using Microsoft.AspNetCore.Identity;
 using static Backend.Payloads.AuthPayload;
@@ -17,14 +18,14 @@ namespace Backend.Endpoints
             authGroup.MapPost("/", AddTrip); 
         }
 
-        public static async Task<IResult> GetUserTrip(string userId)
+        public static async Task<IResult> GetUserTrip(ITripRepository tripRepository, string userId)
         {
-            return TypedResults.NotFound(userId);
+            return TypedResults.Ok(await tripRepository.GetUserTrips(userId));
         }
 
-        public static async Task<IResult> AddTrip(TripPostPayload payload)
+        public static async Task<IResult> AddTrip(ITripRepository tripRepository, TripPostPayload payload)
         {
-            return TypedResults.BadRequest();
+            return TypedResults.Created("created trip", await tripRepository.AddTrip(payload));
         }
     }
 }

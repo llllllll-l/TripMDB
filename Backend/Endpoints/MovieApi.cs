@@ -1,9 +1,5 @@
-using Backend.Enums;
 using Backend.Models;
 using Backend.Payloads;
-using Backend.Services;
-using Microsoft.AspNetCore.Identity;
-using static Backend.Payloads.AuthPayload;
 using Backend.Repositories;
 namespace Backend.Endpoints
 {
@@ -16,9 +12,9 @@ namespace Backend.Endpoints
             authGroup.MapPost("/", AddMovie); 
         }
 
-        public static async Task<IResult> GetMovieById(string movieId)
+        public static async Task<IResult> GetMovieById(IMovieRepository movieRepository, int movieId)
         {
-            return TypedResults.NotFound(movieId);
+            return TypedResults.Ok(await movieRepository.GetMovieById(movieId));
         }
 
         /*TODO: Make admin required */

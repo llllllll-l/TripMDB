@@ -5,6 +5,7 @@ using Backend.Models;
 using Backend.Repositories;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -59,6 +60,9 @@ builder.Services.AddCors(options =>
 // AddScoped<>
 builder.Services.AddScoped<TokenService, TokenService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IMovieLocationRepository, MovieLocationRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
 
 builder.Services.AddDbContext<DBContext>(option =>
 {
