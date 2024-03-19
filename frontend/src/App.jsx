@@ -5,6 +5,7 @@ import "./App.css";
 import Homepage from "./Homepage/Homepage";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import MovieDetails from "./Movies/MovieDetails";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -41,6 +42,7 @@ function App() {
         <Route path="/" element={<LoginPage handleLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<Homepage currentUser={currentUser} />} />
+        <Route path="/movies" element={<MovieDetails />} />
       </Routes>
     </>
   );

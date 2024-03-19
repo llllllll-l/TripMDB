@@ -19,3 +19,21 @@
   font-weight: bold;
   margin: 10px;
 }
+
+.poster img {
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+}
+
+.info {
+  margin-left: 20px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
