@@ -18,6 +18,8 @@ namespace Backend.Repositories
         {
              Movie? movie = await db.Movies
                 .Where(m => m.Id == movieId)
+                .Include(m => m.MovieLocations)
+                .ThenInclude(ml => ml.Location)
                 .SingleOrDefaultAsync();
             if (movie == null)
             {
@@ -44,7 +46,10 @@ namespace Backend.Repositories
         }
 
         public async Task<IEnumerable<Movie>> getAllMovies() {
-            return await db.Movies.ToListAsync();
+            return await db.Movies
+                        .Include(m => m.MovieLocations)
+                        .ThenInclude(ml => ml.Location)
+                        .ToListAsync();
         }
     }
 }
