@@ -7,5 +7,7 @@ namespace Backend.Repositories
     {
         public Task<MovieLocation?> AddMovieLocation(MovieLocationPostPayload MovieLocationPostPayload);
         public Task<ICollection<MovieLocation>> GetMovieLocations();
+        public Task<ICollection<MovieLocation>> GetMovieLocationByMovieId(int movieId);
+
     }
 }

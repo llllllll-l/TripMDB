@@ -33,5 +33,14 @@ namespace Backend.Repositories
                     .Include(m => m.Location)
                     .ToListAsync();
         }
+
+        public async Task<ICollection<MovieLocation>> GetMovieLocationByMovieId(int movieId)
+        {
+            return await db.MovieLocations
+                    .Where(m => m.MovieId == movieId )
+                    .Include(m => m.Movie)
+                    .Include(m => m.Location)
+                    .ToListAsync();
+        }
     }
 }

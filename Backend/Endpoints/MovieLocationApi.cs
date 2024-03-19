@@ -17,6 +17,12 @@ namespace Backend.Endpoints
             var authGroup = app.MapGroup("movielocation");
             authGroup.MapPost("/", AddMovieLocation);
             authGroup.MapGet("/", GetMovieLocation);
+            authGroup.MapGet("/{movideId}", GetMovieLocationByMovieId);
+        }
+        public static async Task<IResult> GetMovieLocationByMovieId(IMovieLocationRepository movieLocationRepository, int movieId)
+        {
+            ICollection<MovieLocation> ml = await movieLocationRepository.GetMovieLocationByMovieId(movieId);
+            return TypedResults.Ok(TripMovieLocationDTO.FromRepository(ml));
         }
         public static async Task<IResult> GetMovieLocation(IMovieLocationRepository movieLocationRepository)
         {
