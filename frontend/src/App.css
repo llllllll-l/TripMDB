@@ -69,6 +69,14 @@ nav li:last-child {
   bottom: 2.5rem;
 }
 
+.movie-feed {
+  padding: 20px;
+}
+
+.movie-card {
+  padding: 20px;
+}
+
 .body {
   margin-left: 250px;
   padding: 30px;
