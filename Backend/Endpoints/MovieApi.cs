@@ -1,3 +1,4 @@
+using Backend.DTOs;
 using Backend.Models;
 using Backend.Payloads;
 using Backend.Repositories;
@@ -15,7 +16,8 @@ namespace Backend.Endpoints
 
         public static async Task<IResult> GetMovieById(IMovieRepository movieRepository, int movieId)
         {
-            return TypedResults.Ok(await movieRepository.GetMovieById(movieId));
+            Movie? movie = await movieRepository.GetMovieById(movieId);
+            return TypedResults.Ok(MovieResponseDTO.FromRepository(movie));
         }
 
         /*TODO: Make admin required */
@@ -29,11 +31,11 @@ namespace Backend.Endpoints
 
 
         public static async Task<IResult> getAllMovies(IMovieRepository movieRepository) {
-            var result = await movieRepository.getAllMovies();
+            IEnumerable<Movie> result = await movieRepository.getAllMovies();
             if (result == null) {
                 return TypedResults.NotFound("There are no movies in the database");
             }
-            return TypedResults.Ok(result);
+            return TypedResults.Ok(MovieResponseDTO.FromRepository(result));
             //throw new NotImplementedException();
         }
     }
