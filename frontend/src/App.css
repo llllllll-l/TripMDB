@@ -22,6 +22,7 @@
   margin: 10px;
 }
 
+<<<<<<< HEAD
 .homepage {
   display: flex;
 }
@@ -76,3 +77,22 @@ nav li:last-child {
   flex-direction: column;
   gap: 2rem;
 }
+=======
+.poster img {
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+}
+
+.info {
+  margin-left: 20px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+>>>>>>> dev
