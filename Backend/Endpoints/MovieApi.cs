@@ -10,6 +10,7 @@ namespace Backend.Endpoints
             var authGroup = app.MapGroup("movies");
             authGroup.MapGet("/{movieId}", GetMovieById); 
             authGroup.MapPost("/", AddMovie); 
+            authGroup.MapGet("/", getAllMovies);
         }
 
         public static async Task<IResult> GetMovieById(IMovieRepository movieRepository, int movieId)
@@ -24,6 +25,16 @@ namespace Backend.Endpoints
             Movie? movie = await movieRepository.AddMovie(payload);
 
             return TypedResults.Created("created", movie);
+        }
+
+
+        public static async Task<IResult> getAllMovies(IMovieRepository movieRepository) {
+            var result = await movieRepository.getAllMovies();
+            if (result == null) {
+                return TypedResults.NotFound("There are no movies in the database");
+            }
+            return TypedResults.Ok(result);
+            //throw new NotImplementedException();
         }
     }
 }

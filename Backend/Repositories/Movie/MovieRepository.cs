@@ -42,5 +42,9 @@ namespace Backend.Repositories
             await db.SaveChangesAsync();
             return movie;
         }
+
+        public async Task<IEnumerable<Movie>> getAllMovies() {
+            return await db.Movies.ToListAsync();
+        }
     }
 }
