@@ -1,3 +1,4 @@
+using Backend.DTOs;
 using Backend.Models;
 using Backend.Payloads;
 using Backend.Repositories;
@@ -18,16 +19,16 @@ namespace Backend.Endpoints
          public static async Task<IResult> GetLocations(ILocationRepository locationRepository)
         {
               
-            ICollection<Location>? location = await locationRepository.GetLocations();
+            ICollection<Location>? locations = await locationRepository.GetLocations();
 
-            return TypedResults.Ok(location);
+            return TypedResults.Ok(LocationDTO.FromRepository(locations));
         }
         public static async Task<IResult> AddLocation(ILocationRepository locationRepository, LocationPostPayload payload)
         {
               
             Location? location = await locationRepository.AddLocation(payload);
 
-            return TypedResults.Created("created", location);
+            return TypedResults.Created("created", new LocationDTO(location));
         }
     }
 }

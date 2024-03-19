@@ -33,6 +33,10 @@ namespace Backend.Repositories
         {
             return await db.Trips
                             .Where(t => t.UserId == user_id)
+                            .Include(t => t.User)
+                            .Include(t => t.Movie)
+                            .ThenInclude(m => m.MovieLocations)
+                            .ThenInclude(ml => ml.Location)
                             .ToListAsync();
         }
     }
