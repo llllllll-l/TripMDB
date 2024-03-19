@@ -7,7 +7,10 @@ import Searchbar from "./components/Searchbar";
 
 function Homepage({ currentUser }) {
   const userInitials = getInitials(`${currentUser.username}`);
-  const [filteredMovies, setFilteredMovies] = useState([]);
+
+  // State to store movies
+  const [movies, setMovies] = useState([]); // <-- final
+  const [filteredMovies, setFilteredMovies] = useState([]); // <-- updatess
 
   const moviesData = [
     {
@@ -146,11 +149,9 @@ function Homepage({ currentUser }) {
     },
   ];
 
-  // State to store movies
-  const [movies, setMovies] = useState([]);
-
   useEffect(() => {
     setMovies(moviesData);
+    setFilteredMovies(moviesData);
   }, []);
 
   const handleSearch = (term) => {

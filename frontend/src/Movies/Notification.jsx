@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Notification = ({ message }) => {
   return (
@@ -6,6 +6,6 @@ const Notification = ({ message }) => {
       <p>{message}</p>
     </div>
   );
-}
+};
 
 export default Notification;
