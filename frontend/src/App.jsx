@@ -6,6 +6,7 @@ import Homepage from "./Homepage/Homepage";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MovieDetails from "./Movies/MovieDetails";
+import TripDetails from "./Trips/TripDetails";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -43,6 +44,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<Homepage currentUser={currentUser} />} />
         <Route path="/movies" element={<MovieDetails />} />
+        <Route path="/trips" element={<TripDetails />} />
       </Routes>
     </>
   );
