@@ -22,7 +22,6 @@
   margin: 10px;
 }
 
-<<<<<<< HEAD
 .homepage {
   display: flex;
 }
@@ -77,7 +76,6 @@ nav li:last-child {
   flex-direction: column;
   gap: 2rem;
 }
-=======
 .poster img {
   width: 200px; /* Adjust size as needed */
   height: auto;
@@ -95,4 +93,3 @@ p {
   font-size: 16px;
   margin-bottom: 5px;
 }
->>>>>>> dev
