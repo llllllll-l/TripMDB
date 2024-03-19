@@ -1,10 +1,7 @@
-using Backend.Enums;
+using Backend.DTOs;
 using Backend.Models;
 using Backend.Payloads;
 using Backend.Repositories;
-using Backend.Services;
-using Microsoft.AspNetCore.Identity;
-using static Backend.Payloads.AuthPayload;
 
 namespace Backend.Endpoints
 {
@@ -20,7 +17,8 @@ namespace Backend.Endpoints
 
         public static async Task<IResult> GetUserTrip(ITripRepository tripRepository, string userId)
         {
-            return TypedResults.Ok(await tripRepository.GetUserTrips(userId));
+            ICollection<Trip> trips = await tripRepository.GetUserTrips(userId);
+            return TypedResults.Ok(TripDTO.FromRepository(trips));
         }
 
         public static async Task<IResult> AddTrip(ITripRepository tripRepository, TripPostPayload payload)
