@@ -1,4 +1,6 @@
+using Backend.Models;
 using Backend.Payloads;
+using Backend.Repositories;
 
 namespace Backend.Endpoints
 {
@@ -9,12 +11,23 @@ namespace Backend.Endpoints
         {
             var authGroup = app.MapGroup("location"); 
             authGroup.MapPost("/", AddLocation); 
+            authGroup.MapGet("/", GetLocations); 
         }
 
         /*TODO: Make admin required */
-        public static async Task<IResult> AddLocation(LocationPostPayload payload)
+         public static async Task<IResult> GetLocations(ILocationRepository locationRepository)
         {
-            return TypedResults.BadRequest();
+              
+            ICollection<Location>? location = await locationRepository.GetLocations();
+
+            return TypedResults.Ok(location);
+        }
+        public static async Task<IResult> AddLocation(ILocationRepository locationRepository, LocationPostPayload payload)
+        {
+              
+            Location? location = await locationRepository.AddLocation(payload);
+
+            return TypedResults.Created("created", location);
         }
     }
 }

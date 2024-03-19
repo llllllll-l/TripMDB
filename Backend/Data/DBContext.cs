@@ -46,5 +46,6 @@ namespace Backend.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<MovieLocation> MovieLocations { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 using Backend.Models;
 using Backend.Payloads;
 using Backend.Data;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories
