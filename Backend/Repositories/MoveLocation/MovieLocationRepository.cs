@@ -28,7 +28,10 @@ namespace Backend.Repositories
 
         public async Task<ICollection<MovieLocation>> GetMovieLocations()
         {
-            return await db.MovieLocations.ToListAsync();
+            return await db.MovieLocations
+                    .Include(m => m.Movie)
+                    .Include(m => m.Location)
+                    .ToListAsync();
         }
     }
 }

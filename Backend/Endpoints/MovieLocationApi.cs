@@ -1,3 +1,4 @@
+using Backend.DTOs;
 using Backend.Enums;
 using Backend.Models;
 using Backend.Payloads;
@@ -19,12 +20,15 @@ namespace Backend.Endpoints
         }
         public static async Task<IResult> GetMovieLocation(IMovieLocationRepository movieLocationRepository)
         {
-            return TypedResults.Ok(await movieLocationRepository.GetMovieLocations());
+            ICollection<MovieLocation> ml = await movieLocationRepository.GetMovieLocations();
+            return TypedResults.Ok(MovieLocationDTO.FromRepository(ml));
         }
         /*TODO: Make admin required */
         public static async Task<IResult> AddMovieLocation(IMovieLocationRepository movieLocationRepository, MovieLocationPostPayload payload)
-        {
-            return TypedResults.Created("MovieLocation", await movieLocationRepository.AddMovieLocation(payload));
+        {   
+            MovieLocation? ml = await movieLocationRepository.AddMovieLocation(payload);
+
+            return TypedResults.Created("MovieLocation", MovieLocationDTO.FromRepository(ml));
         }
     }
 }
