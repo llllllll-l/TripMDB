@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import Notification from "./Notification";
-import {Card} from "react-bootstrap"
+import { Card } from "react-bootstrap";
 
 function MovieDetails({ movies, currentUser }) {
   const [showNotification, setShowNotification] = useState(false);
@@ -20,13 +20,26 @@ function MovieDetails({ movies, currentUser }) {
   const handleAddTrip = async () => {
     console.log(currentUser);
     try {
-      if (!tripDate || tripDate < new Date()) {
+      // check to see that a date is imputed
+      if (!tripDate) {
         console.error("Trip date is required.");
         setShowNotification(true);
         return;
       }
       // Need convertion since db expects DateTime
       const tripDateTime = new Date(tripDate);
+      // Get current date
+      const currentDate = new Date();
+
+      // check to see if the inputed date is in the past relative to currentDate
+      if (tripDateTime < currentDate) {
+        console.error(
+          "You can not enter a date that is in the past to this day, ",
+          currentDate
+        );
+        setShowNotification(true);
+        return;
+      }
 
       const reqBody = JSON.stringify({
         userId: currentUser.id,
@@ -36,6 +49,7 @@ function MovieDetails({ movies, currentUser }) {
       });
 
       console.log(reqBody);
+
       const response = await fetch("http://localhost:5191/trips", {
         method: "POST",
         headers: {
@@ -57,15 +71,12 @@ function MovieDetails({ movies, currentUser }) {
   useEffect(() => {
     //const movieId = parseInt(id);
     const selectedMovie = movies.find((movie) => movie.id === parseInt(id));
-    console.log("lalalal", selectedMovie);
     if (selectedMovie) {
       setMovie(selectedMovie);
     } else {
       console.error(`Movie with id: ${id} could not be found`);
     }
   }, [id]);
-
-  console.log("All movies: ", movie);
 
   return (
     <>
@@ -97,18 +108,20 @@ function MovieDetails({ movies, currentUser }) {
               <h2>
                 <strong>Location: </strong>
               </h2>
-              <Card style={{ width: '18rem' }}>
+              <Card style={{ width: "18rem" }}>
                 {movie.locations.map((location) => (
-                <div key={location.id}>
-                  <Card.Title><p>Name: {location.location.locationName}</p></Card.Title>
-                  <Card.Text>
-                  <p>City: {location.location.city}</p>
-                  <p>Country: {location.location.country}</p>
-                  <p>Latitude: {location.location.latitude}</p>
-                  <p>Longitude: {location.location.longitude}</p>
-                  </Card.Text>
-                </div>
-              ))}
+                  <div key={location.id}>
+                    <Card.Title>
+                      <p>Name: {location.location.locationName}</p>
+                    </Card.Title>
+                    <Card.Text>
+                      <p>City: {location.location.city}</p>
+                      <p>Country: {location.location.country}</p>
+                      <p>Latitude: {location.location.latitude}</p>
+                      <p>Longitude: {location.location.longitude}</p>
+                    </Card.Text>
+                  </div>
+                ))}
               </Card>
               <input
                 type="date"
