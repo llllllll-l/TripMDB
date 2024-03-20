@@ -12,7 +12,8 @@ namespace Backend.Endpoints
         {
             var authGroup = app.MapGroup("trips");
             authGroup.MapGet("/{userId}", GetUserTrip); 
-            authGroup.MapPost("/", AddTrip); 
+            authGroup.MapPost("/", AddTrip);
+            authGroup.MapDelete("/{userId}/{tripId}", DeleteUserTrip);
         }
 
         public static async Task<IResult> GetUserTrip(ITripRepository tripRepository, string userId)
@@ -24,6 +25,12 @@ namespace Backend.Endpoints
         public static async Task<IResult> AddTrip(ITripRepository tripRepository, TripPostPayload payload)
         {
             return TypedResults.Created("created trip", await tripRepository.AddTrip(payload));
+        }
+
+        public static async Task<IResult> DeleteUserTrip(ITripRepository tripRepository, string userId, int tripId)
+        {
+            Trip trip = await tripRepository.DeleteUserTrip(userId, tripId);
+            return TypedResults.Ok(TripDTO.FromRepository(trip));
         }
     }
 }

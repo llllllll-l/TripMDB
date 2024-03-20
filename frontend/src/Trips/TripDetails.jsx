@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 import { PropTypes } from "prop-types";
 
 function TripDetails({ currentUser }) {
@@ -24,6 +25,27 @@ function TripDetails({ currentUser }) {
       .catch((error) => console.error("Error fetching trips:", error));
   }, []);
 
+  //delete trips
+  const handleDeleteTrip = (tripId) => {
+    console.log("tripId",tripId);
+    fetch(`http://localhost:5191/trips/${currentUser.id}/${tripId}`, {
+      method: "DELETE",
+    }
+    )
+    .then((response) => {
+      console.log("response: ", response);
+      if (response.ok) {
+        setTrips(trips.filter((trip) => trip.id !== tripId));
+      } else {
+        console.error("failed to delete trip");
+      }
+    })
+    .catch((error) => {
+      console.error("Error occured deleting the trip", error);
+    });
+  };
+
+  console.log("trips: ", trips);
   return (
     <div className="movie-details">
       <div className="info">
@@ -55,6 +77,7 @@ function TripDetails({ currentUser }) {
                     </li>
                   ))}
                 </ul>
+                <Button onClick={() => handleDeleteTrip(trip.id)}>Delete</Button>
               </div>
             ))}
           </>
