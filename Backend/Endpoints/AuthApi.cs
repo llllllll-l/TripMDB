@@ -38,7 +38,7 @@ namespace Backend.Endpoints
 
             var token = tokenService.CreateToken(user);
 
-            return TypedResults.Ok(new LoginResPayload(token, user.UserName, user.Email));
+            return TypedResults.Ok(new LoginResPayload(token, user.UserName, user.Email, user.Id));
         }
 
         /// <summary>
