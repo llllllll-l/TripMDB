@@ -61,11 +61,18 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage handleLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/movie/:id" element={<MovieDetails movies={dbMovies} />} />
-        <Route path="/trips" element={<TripDetails currentUser={currentUser}/>} />
+        <Route
+          path="/trips"
+          element={<TripDetails currentUser={currentUser} />}
+        />
         <Route
           path="/home"
           element={<Homepage movies={dbMovies} currentUser={currentUser} />}
+        />
+
+        <Route
+          path="/movie/:id"
+          element={<MovieDetails movies={dbMovies} currentUser={currentUser} />}
         />
       </Routes>
     </>
