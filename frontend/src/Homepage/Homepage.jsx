@@ -8,7 +8,7 @@ import Searchbar from "./components/Searchbar";
 function Homepage({ movies, currentUser }) {
   const userInitials = getInitials(`${currentUser.username}`);
   // State to store movies
-  const [filteredMovies, setFilteredMovies] = useState([]); // <-- updatess
+  const [filteredMovies, setFilteredMovies] = useState([]); // <-- updates
 
   useEffect(() => {
     setFilteredMovies(movies);
