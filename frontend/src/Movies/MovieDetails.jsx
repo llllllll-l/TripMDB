@@ -17,35 +17,35 @@ function MovieDetails({ movies, currentUser }) {
 
   // for handle trips
   const handleAddTrip = async () => {
+    console.log(currentUser);
     try {
       if (!tripDate || tripDate < new Date()) {
         console.error("Trip date is required.");
         setShowNotification(true);
         return;
-      } else {
-        // Need convertion since db expects DateTime
-        const tripDateTime = new Date(tripDate);
+      }
+      // Need convertion since db expects DateTime
+      const tripDateTime = new Date(tripDate);
 
-        const reqBody = JSON.stringify({
-          userId: currentUser.id,
-          movieId: parseInt(id),
-          date: tripDateTime,
-          description: "string",
-        });
+      const reqBody = JSON.stringify({
+        userId: currentUser.id,
+        movieId: parseInt(id),
+        date: tripDateTime,
+        description: "string",
+      });
 
-        console.log(reqBody);
-        const response = await fetch("http://localhost:5191/trips", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: reqBody,
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("success", data);
-          navigate("/home");
-        }
+      console.log(reqBody);
+      const response = await fetch("http://localhost:5191/trips", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: reqBody,
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("success", data);
+        navigate("/home");
       }
     } catch (er) {
       console.error("OBS!!! Something went wrong adding the trip...", er);
