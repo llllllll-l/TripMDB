@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import Notification from "./Notification";
-
+import {Card} from "react-bootstrap"
 function MovieDetails({ movies }) {
   const [showNotification, setShowNotification] = useState(false);
   const [movie, setMovie] = useState({});
@@ -65,15 +65,19 @@ function MovieDetails({ movies }) {
               <h2>
                 <strong>Location: </strong>
               </h2>
-              {movie.locations.map((location) => (
+              <Card style={{ width: '18rem' }}>
+                {movie.locations.map((location) => (
                 <div key={location.id}>
-                  <p>Name: {location.location.locationName}</p>
+                  <Card.Title><p>Name: {location.location.locationName}</p></Card.Title>
+                  <Card.Text>
                   <p>City: {location.location.city}</p>
                   <p>Country: {location.location.country}</p>
                   <p>Latitude: {location.location.latitude}</p>
                   <p>Longitude: {location.location.longitude}</p>
+                  </Card.Text>
                 </div>
               ))}
+              </Card>
               <button onClick={handleAddTrip}>Add Trip</button>
               <button onClick={navigateToHome}>Home</button>
               {showNotification && (
