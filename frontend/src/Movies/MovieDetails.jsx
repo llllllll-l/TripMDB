@@ -20,13 +20,26 @@ function MovieDetails({ movies, currentUser }) {
   const handleAddTrip = async () => {
     console.log(currentUser);
     try {
-      if (!tripDate || tripDate < new Date()) {
+      // check to see that a date is imputed
+      if (!tripDate) {
         console.error("Trip date is required.");
         setShowNotification(true);
         return;
       }
       // Need conversion since the database expects DateTime
       const tripDateTime = new Date(tripDate);
+      // Get current date
+      const currentDate = new Date();
+
+      // check to see if the inputed date is in the past relative to currentDate
+      if (tripDateTime < currentDate) {
+        console.error(
+          "You can not enter a date that is in the past to this day, ",
+          currentDate
+        );
+        setShowNotification(true);
+        return;
+      }
 
       const reqBody = JSON.stringify({
         userId: currentUser.id,
@@ -36,6 +49,7 @@ function MovieDetails({ movies, currentUser }) {
       });
 
       console.log(reqBody);
+
       const response = await fetch("http://localhost:5191/trips", {
         method: "POST",
         headers: {
@@ -57,15 +71,12 @@ function MovieDetails({ movies, currentUser }) {
   useEffect(() => {
     //const movieId = parseInt(id);
     const selectedMovie = movies.find((movie) => movie.id === parseInt(id));
-    console.log("lalalal", selectedMovie);
     if (selectedMovie) {
       setMovie(selectedMovie);
     } else {
       console.error(`Movie with id: ${id} could not be found`);
     }
   }, [id]);
-
-  console.log("All movies: ", movie);
 
   return (
     <>
@@ -83,8 +94,7 @@ function MovieDetails({ movies, currentUser }) {
               <img
                 src={movie.image}
                 style={{ width: '300px', height: 'auto', maxHeight: '500px' }}
-                className="img-fluid"
-              />
+                className="img-fluid" />
             </div>
             <div className="movie-content d-flex ">
 

@@ -8,7 +8,6 @@ import Card from "react-bootstrap/Card"
 
 function Homepage({ movies, currentUser }) {
   const userInitials = getInitials(`${currentUser.username}`);
-
   // State to store movies
   const [filteredMovies, setFilteredMovies] = useState([]); // <-- updatess
 
@@ -29,7 +28,10 @@ function Homepage({ movies, currentUser }) {
         {/* Navigation */}
         <div className="navbar">
           {/* Navigation links */}
-          <Navbar userInitials={userInitials}></Navbar>
+          <Navbar
+            userInitials={userInitials}
+            isAdmin={currentUser.role}
+          ></Navbar>
         </div>
 
         <div className="body">
