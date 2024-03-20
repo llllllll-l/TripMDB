@@ -3,28 +3,59 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import Notification from "./Notification";
 
-function MovieDetails({ movies }) {
+function MovieDetails({ movies, currentUser }) {
   const [showNotification, setShowNotification] = useState(false);
   const [movie, setMovie] = useState({});
+  const [tripDate, setTripDate] = useState("");
 
   let { id } = useParams();
-
-  // used to navigate back home
   const navigate = useNavigate();
+
   const navigateToHome = () => {
     navigate("/home");
   };
 
   // for handle trips
-  const handleAddTrip = () => {
-    // add logic to add trip
+  const handleAddTrip = async () => {
+    try {
+      if (!tripDate || tripDate < new Date()) {
+        console.error("Trip date is required.");
+        setShowNotification(true);
+        return;
+      } else {
+        // Need convertion since db expects DateTime
+        const tripDateTime = new Date(tripDate);
+
+        const reqBody = JSON.stringify({
+          userId: currentUser.id,
+          movieId: parseInt(id),
+          date: tripDateTime,
+          description: "string",
+        });
+
+        console.log(reqBody);
+        const response = await fetch("http://localhost:5191/trips", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: reqBody,
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("success", data);
+          navigate("/home");
+        }
+      }
+    } catch (er) {
+      console.error("OBS!!! Something went wrong adding the trip...", er);
+    }
     setShowNotification(true);
   };
 
   useEffect(() => {
-    console.log("useEffect inmoveDetils");
-    const movieId = parseInt(id);
-    const selectedMovie = movies.find((movie) => movie.id === movieId);
+    //const movieId = parseInt(id);
+    const selectedMovie = movies.find((movie) => movie.id === parseInt(id));
     console.log("lalalal", selectedMovie);
     if (selectedMovie) {
       setMovie(selectedMovie);
@@ -74,12 +105,15 @@ function MovieDetails({ movies }) {
                   <p>Longitude: {location.location.longitude}</p>
                 </div>
               ))}
+              <input
+                type="date"
+                value={tripDate}
+                onChange={(e) => setTripDate(e.target.value)}
+              />
               <button onClick={handleAddTrip}>Add Trip</button>
               <button onClick={navigateToHome}>Home</button>
               {showNotification && (
-                <Notification
-                  message={`Trip to location(s): ${movie.Country}, with movie-theme: ${movie.Title} was successfully added to your trips!`}
-                />
+                <Notification message={`You need to enter a vaid date`} />
               )}
             </div>
           </>
@@ -93,6 +127,7 @@ function MovieDetails({ movies }) {
 
 MovieDetails.propTypes = {
   movies: PropTypes.array,
+  currentUser: PropTypes.object,
 };
 
 export default MovieDetails;

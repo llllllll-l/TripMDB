@@ -64,7 +64,10 @@ function App() {
           path="/home"
           element={<Homepage movies={dbMovies} currentUser={currentUser} />}
         />
-        <Route path="/movie/:id" element={<MovieDetails movies={dbMovies} />} />
+        <Route
+          path="/movie/:id"
+          element={<MovieDetails movies={dbMovies} currentUser={currentUser} />}
+        />
       </Routes>
     </>
   );
