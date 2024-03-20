@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import Notification from "./Notification";
-import {Card} from "react-bootstrap"
+import { Card, Button, ListGroup, Form } from "react-bootstrap";
+import { getInitials } from "../utils/getInitials";
+import Navbar from "../Homepage/components/Navbar";
 
 function MovieDetails({ movies, currentUser }) {
   const [showNotification, setShowNotification] = useState(false);
   const [movie, setMovie] = useState({});
   const [tripDate, setTripDate] = useState("");
+  const [showLocations, setShowLocations] = useState(false);
+  const userInitials = getInitials(`${currentUser.username}`);
 
   let { id } = useParams();
   const navigate = useNavigate();
-
-  const navigateToHome = () => {
-    navigate("/home");
-  };
 
   // for handle trips
   const handleAddTrip = async () => {
@@ -25,7 +25,7 @@ function MovieDetails({ movies, currentUser }) {
         setShowNotification(true);
         return;
       }
-      // Need convertion since db expects DateTime
+      // Need conversion since the database expects DateTime
       const tripDateTime = new Date(tripDate);
 
       const reqBody = JSON.stringify({
@@ -69,59 +69,100 @@ function MovieDetails({ movies, currentUser }) {
 
   return (
     <>
-      <div className="movie-details">
+      <div className="navbar">
+        {/* Navigation links */}
+        <Navbar userInitials={userInitials}></Navbar>
+      </div>
+      <div className="movie-details mx-auto" style={{ width: '80vw' }}>
         {movie && movie.locations ? (
-          <>
-            <div className="poster">
-              <img src={movie.image} alt={movie.title} />
-            </div>
-            <div className="info">
-              <h1>{movie.title}</h1>
-              <p>
-                <strong>Release: </strong> {movie.release}
-              </p>
-              {/* //TOTO Add location as th move does not currently have a location */}
-              <p>
-                <strong>Rating: </strong> {movie.rating}
-              </p>
-              <p>
-                <strong>Director: </strong> {movie.director}
-              </p>
-
-              <p>
-                <strong>Year :</strong> {movie.release}
-              </p>
-              <p>
-                <strong>Description: </strong> {movie.description}
-              </p>
-              <h2>
-                <strong>Location: </strong>
-              </h2>
-              <Card style={{ width: '18rem' }}>
-                {movie.locations.map((location) => (
-                <div key={location.id}>
-                  <Card.Title><p>Name: {location.location.locationName}</p></Card.Title>
-                  <Card.Text>
-                  <p>City: {location.location.city}</p>
-                  <p>Country: {location.location.country}</p>
-                  <p>Latitude: {location.location.latitude}</p>
-                  <p>Longitude: {location.location.longitude}</p>
-                  </Card.Text>
-                </div>
-              ))}
-              </Card>
-              <input
-                type="date"
-                value={tripDate}
-                onChange={(e) => setTripDate(e.target.value)}
+          <Card
+            className="w-50 shadow-lg mx-auto mb-5"
+            style={{ width: '400px', maxWidth: '100%', height: 'auto' }}
+          >
+            <div className="poster bg-dark d-flex justify-content-center align-items-center">
+              <img
+                src={movie.image}
+                style={{ width: '300px', height: 'auto', maxHeight: '500px' }}
+                className="img-fluid"
               />
-              <button onClick={handleAddTrip}>Add Trip</button>
-              <button onClick={navigateToHome}>Home</button>
-              {showNotification && (
-                <Notification message={`You need to enter a vaid date`} />
-              )}
             </div>
-          </>
+            <div className="movie-content d-flex ">
+
+              <div className="info pr-5">
+                <h1>{movie.title}</h1>
+                <p>
+                  <strong>Release: </strong> {movie.release}
+                </p>
+                <p>
+                  <strong>Rating: </strong> {movie.rating}
+                </p>
+                <p>
+                  <strong>Director: </strong> {movie.director}
+                </p>
+                <p>
+                  <strong>Year :</strong> {movie.release}
+                </p>
+                <p>
+                  <strong>Description: </strong> {movie.description}
+                </p>
+              </div>
+              <div className="actions ml-auto">
+                <Card style={{ width: "100%", minWidth: "300px" }} >
+                  <Card.Title className="mt-4"><p className="text-center"><strong>Book this Trip!</strong></p></Card.Title>
+                  <Form>
+                    <Card.Body className="justify-content-center">
+                      <p className="text-center">Select a date</p>
+                      <div className="d-flex justify-content-center mx-auto">
+                        <input
+                          type="date"
+                          value={tripDate}
+                          onChange={(e) => setTripDate(e.target.value)}
+                        />
+                      </div>
+                    </Card.Body>
+                    <Card.Footer>
+                      <div className="d-flex justify-content-center mx-auto">
+                        <Button
+                          onClick={handleAddTrip}>Add Trip
+                        </Button>
+                      </div>
+                    </Card.Footer>
+                  </Form>
+                </Card>
+              </div>
+            </div>
+
+            <Button className="w-50 mx-auto mt-5" onClick={() => setShowLocations(!showLocations)}>
+              {showLocations ? 'Hide Locations' : 'Show Locations'}
+            </Button>
+            {showLocations && (
+              <>
+                <p>
+                  <strong>Locations: </strong>
+                </p>
+                <ListGroup>
+                  {movie.locations.map((location) => (
+                    <ListGroup.Item key={location.id}>
+                      <ListGroup>
+                        <ListGroup.Item><p>Name: {location.location.locationName}</p></ListGroup.Item>
+
+                        <ListGroup.Item><p>City: {location.location.city}</p></ListGroup.Item>
+                        <ListGroup.Item><p>Country: {location.location.country}</p></ListGroup.Item>
+                        <ListGroup.Item> <p>Latitude: {location.location.latitude}</p></ListGroup.Item>
+                        <ListGroup.Item> <p>Longitude: {location.location.longitude}</p></ListGroup.Item>
+
+                      </ListGroup>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </>
+            )}
+            <br></br>
+
+            {showNotification && (
+              <Notification message={`You need to enter a valid date`} />
+            )}
+          </Card>
         ) : (
           <div>Loading...</div>
         )}
