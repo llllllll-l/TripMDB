@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { PropTypes } from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage({ handleLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     handleLogin(email, password);
+  };
+
+  const handleRegistre = () => {
+    navigate("/register");
   };
 
   return (
@@ -35,7 +42,7 @@ function LoginPage({ handleLogin }) {
             />
           </div>
           <button type="submit">Login</button>
-          <button>Register</button>
+          <button onClick={handleRegistre}>Register</button>
         </div>
       </form>
     </>
