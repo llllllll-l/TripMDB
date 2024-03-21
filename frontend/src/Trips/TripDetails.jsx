@@ -30,8 +30,7 @@ function TripDetails({ currentUser }) {
     console.log("tripId",tripId);
     fetch(`http://localhost:5191/trips/${currentUser.id}/${tripId}`, {
       method: "DELETE",
-    }
-    )
+    })
     .then((response) => {
       console.log("response: ", response);
       if (response.ok) {
@@ -45,7 +44,6 @@ function TripDetails({ currentUser }) {
     });
   };
 
-  console.log("trips: ", trips);
   return (
     <div className="movie-details">
       <div className="info">

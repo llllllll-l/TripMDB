@@ -36,16 +36,17 @@ namespace Backend.Repositories
         {
             Trip tripToDelete = await db.Trips.FirstOrDefaultAsync
             (t => t.UserId == userId && t.Id == tripId);
+
             if (tripToDelete == null)
             {
                 throw new Exception("Trip not found");
             }
-
             db.Trips.Remove(tripToDelete);
 
             try{
                 await db.SaveChangesAsync();
-            } catch (DbUpdateException ex)
+            } 
+            catch (DbUpdateException ex)
             {
                 throw new Exception("Error deleting trip", ex);
             }       

@@ -30,7 +30,9 @@ namespace Backend.Endpoints
         public static async Task<IResult> DeleteUserTrip(ITripRepository tripRepository, string userId, int tripId)
         {
             Trip trip = await tripRepository.DeleteUserTrip(userId, tripId);
-            return TypedResults.Ok(TripDTO.FromRepository(trip));
+            if(trip != null){
+            return TypedResults.Ok();
+            } return TypedResults.BadRequest();
         }
     }
 }
