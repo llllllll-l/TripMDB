@@ -51,5 +51,15 @@ namespace Backend.Repositories
                         .ThenInclude(ml => ml.Location)
                         .ToListAsync();
         }
+
+        public async Task<Movie?> deleteMovie(int id) {
+            var result = await db.Movies.FindAsync(id);
+            if (result == null) {
+                return null;
+            }
+            db.Movies.Remove(result);
+            await db.SaveChangesAsync();
+            return result;
+        }
     }
 }

@@ -42,6 +42,10 @@ function Navbar({ userInitials, isAdmin }) {
               <span className="material-symbols-outlined">group</span>
               Users
             </Link>
+            <Link to="/authentication/movies">
+              <span className="material-symbols-outlined">movie</span>
+              Movies
+            </Link>
           </li>
         ) : (
           <></>
