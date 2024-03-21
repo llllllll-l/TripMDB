@@ -1,7 +1,11 @@
-﻿using Backend.Enums;
+﻿using System.Web.Http;
+using Backend.DTOs;
+using Backend.Enums;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 using static Backend.Payloads.AuthPayload;
 
 namespace Backend.Endpoints
@@ -14,6 +18,9 @@ namespace Backend.Endpoints
             var authGroup = app.MapGroup("authentication");
             authGroup.MapPost("/login", Login);
             authGroup.MapPost("/register", Register);
+
+            authGroup.MapGet("/users", getAllUsers);
+            authGroup.MapDelete("/users/{id}", deleteUserById);
         }
 
 
@@ -38,7 +45,7 @@ namespace Backend.Endpoints
 
             var token = tokenService.CreateToken(user);
 
-            return TypedResults.Ok(new LoginResPayload(token, user.UserName, user.Email, user.Id));
+            return TypedResults.Ok(new LoginResPayload(token, user.UserName, user.Email, user.Id, user.Role));
         }
 
         /// <summary>
@@ -75,9 +82,30 @@ namespace Backend.Endpoints
                 }
                 return TypedResults.BadRequest(result.Errors.ToString());
             }
-            
-               
-            
+        }
+
+        public static async Task<IResult> getAllUsers(UserManager<ApplicationUser> userManager) {
+            var users = await userManager.Users.ToListAsync();
+
+            var userDTOs =  users.Select(user => new UserDTO(user)).ToList();
+            return TypedResults.Ok(userDTOs);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public static async Task<IResult> deleteUserById(UserManager<ApplicationUser> userManager, string id) {
+            Console.WriteLine(id);
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return TypedResults.NotFound($"Could not find user with id: {id}");
+
+            var result = await userManager.DeleteAsync(user);
+            if (result.Succeeded) {
+                return TypedResults.Ok($"Given user has been removed: {result}");
+            }
+
+            return TypedResults.BadRequest();
+
+
         }
     }
 }

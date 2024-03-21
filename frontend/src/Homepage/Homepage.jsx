@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
+import Card from "react-bootstrap/Card"
 
 function Homepage({ movies, currentUser }) {
   const userInitials = getInitials(`${currentUser.username}`);
-
   // State to store movies
-  const [filteredMovies, setFilteredMovies] = useState([]); // <-- updatess
+  const [filteredMovies, setFilteredMovies] = useState([]); // <-- updates
 
   useEffect(() => {
     setFilteredMovies(movies);
@@ -28,7 +28,10 @@ function Homepage({ movies, currentUser }) {
         {/* Navigation */}
         <div className="navbar">
           {/* Navigation links */}
-          <Navbar userInitials={userInitials}></Navbar>
+          <Navbar
+            userInitials={userInitials}
+            isAdmin={currentUser.role}
+          ></Navbar>
         </div>
 
         <div className="body">
@@ -39,14 +42,19 @@ function Homepage({ movies, currentUser }) {
         {/* Movie feed */}
         <div className="movie-feed">
           {filteredMovies.map((movie) => (
-            <div className="movie-card" key={movie.id}>
-              <img src={movie.image} alt={movie.title} />
-              <div className="movie-info">
+            <Card className="movie-card w-50 mb-5 shadow-lg" key={movie.id}>
+              <div className="poster bg-dark d-flex justify-content-center align-items-center">
+                <img
+                  src={movie.image}
+                  style={{ width: '300px', height: 'auto', maxHeight: '500px' }}
+                  className="img-fluid"
+                />
+              </div>              <Card.Body className="movie-info">
                 <h2>{movie.title}</h2>
                 <p>{movie.description}</p>
                 <Link to={`/movie/${movie.id}`}>View Details</Link>
-              </div>
-            </div>
+              </Card.Body>
+            </Card>
           ))}
         </div>
       </div>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MovieDetails from "./Movies/MovieDetails";
 import TripDetails from "./Trips/TripDetails";
+import Userpage from "./Users/Userspage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -29,6 +30,7 @@ function App() {
       );
 
       if (response.ok) {
+        console.log("Checking login - success");
         const data = await response.json();
         setCurrentUser(data);
         navigate("/home");
@@ -74,6 +76,7 @@ function App() {
           path="/movie/:id"
           element={<MovieDetails movies={dbMovies} currentUser={currentUser} />}
         />
+        <Route path="/authentication/users" element={<Userpage />} />
       </Routes>
     </>
   );
