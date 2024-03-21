@@ -7,5 +7,6 @@ namespace Backend.Repositories
     {
         public Task<Trip?> AddTrip(TripPostPayload tripPostPayload);
         public Task<ICollection<Trip>> GetUserTrips(string user_id);
+        public Task<Trip> DeleteUserTrip(string userId, int tripId);
     }
 }
