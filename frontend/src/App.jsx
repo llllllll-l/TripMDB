@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import MovieDetails from "./Movies/MovieDetails";
 import TripDetails from "./Trips/TripDetails";
 import Userpage from "./Users/Userspage";
+import AdminMoviePage from "./Movies/AdminMoviepage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -77,6 +78,10 @@ function App() {
           element={<MovieDetails movies={dbMovies} currentUser={currentUser} />}
         />
         <Route path="/authentication/users" element={<Userpage />} />
+        <Route
+          path="/authentication/movies"
+          element={<AdminMoviePage movies={dbMovies} />}
+        />
       </Routes>
     </>
   );

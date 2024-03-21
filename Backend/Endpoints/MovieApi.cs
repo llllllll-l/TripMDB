@@ -8,10 +8,12 @@ namespace Backend.Endpoints
     {
         public static void ConfigureMovieApi(this WebApplication app)
         {
-            var authGroup = app.MapGroup("movies");
-            authGroup.MapGet("/{movieId}", GetMovieById); 
-            authGroup.MapPost("/", AddMovie); 
-            authGroup.MapGet("/", getAllMovies);
+            var movieGroup = app.MapGroup("movies");
+            movieGroup.MapGet("/{movieId}", GetMovieById); 
+            movieGroup.MapPost("/", AddMovie); 
+            movieGroup.MapGet("/", getAllMovies);
+            movieGroup.MapDelete("/{id}", deleteMovieById);
+
         }
 
         public static async Task<IResult> GetMovieById(IMovieRepository movieRepository, int movieId)
@@ -36,6 +38,16 @@ namespace Backend.Endpoints
                 return TypedResults.NotFound("There are no movies in the database");
             }
             return TypedResults.Ok(MovieResponseDTO.FromRepository(result));
+            //throw new NotImplementedException();
+        }
+
+        public static async Task<IResult> deleteMovieById(int id, IMovieRepository movieRepository) {
+            var result = await movieRepository.deleteMovie(id);
+            if (result == null) {
+                return TypedResults.BadRequest($"Removing move with id: {id} - failed");
+            }
+            return TypedResults.Ok($"Removing movie with id: {id} - success");
+
             //throw new NotImplementedException();
         }
     }
