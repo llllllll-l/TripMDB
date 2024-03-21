@@ -38,7 +38,7 @@ function Navbar({ userInitials, isAdmin }) {
         </li>
         {IsAdmin ? (
           <li>
-            <Link to="/admin/users">
+            <Link to="/authentication/users">
               <span className="material-symbols-outlined">group</span>
               Users
             </Link>
