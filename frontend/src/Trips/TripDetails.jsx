@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { PropTypes } from "prop-types";
-
+import Card from "react-bootstrap/Card"
+import Navbar from "../Homepage/components/Navbar";
+import ListGroup from 'react-bootstrap/ListGroup';
+import { getInitials } from "../utils/getInitials";
 function TripDetails({ currentUser }) {
   //add user as prop,
   //and access trips through user
   const user = currentUser;
+  const userInitials = getInitials(`${currentUser.username}`);
   console.log("currentUser: ", user);
   const GET_TRIPS = `http://localhost:5191/trips/${currentUser.id}`;
   const [trips, setTrips] = useState([]);
-  // used to navigate back home
-  const navigate = useNavigate();
-  const navigateToHome = () => {
-    navigate("/home");
-  };
 
   //fetch trips
   useEffect(() => {
@@ -25,44 +23,61 @@ function TripDetails({ currentUser }) {
   }, []);
 
   return (
-    <div className="movie-details">
-      <div className="info">
-        <h1>Trips:</h1>
+    <div className="movie-details mx-auto" style={{ width: '80vw' }}>
+      <div className="info mt-5">
+        <h3 className="text-center"><strong>Trips:</strong></h3>
+        <div className="navbar">
+          {/* Navigation links */}
+          <Navbar userInitials={userInitials}></Navbar>
+        </div>
         {trips ? (
           <>
             {/* Map all trips */}
             {trips.map((trip, index) => (
-              <div key={index} className="trip">
-                <h4>Trip {index + 1}</h4>
-                <p>
-                  <strong>Movie:</strong> {trip.movie.title}
-                </p>
-                <p>
-                  <strong>Date:</strong> {trip.date}
-                </p>
-                <p>
-                  <strong>Description:</strong> {trip.description}
-                </p>
-                <ul>
-                  {/* Map all attributes of the trip */}
-                  {trip.locations.map((locationObject, idx) => (
-                    <li key={idx}>
-                      <strong>City:</strong> {locationObject.location.city},
-                      <strong> Country:</strong>{" "}
-                      {locationObject.location.country},
-                      <strong> Location Name:</strong>{" "}
-                      {locationObject.location.locationName}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Card key={index} className="w-50 shadow-lg mx-auto mb-5">
+                <Card.Header>
+                  <h4>Trip {index + 1}</h4>
+                </Card.Header>
+                <Card.Body>
+                  <p>
+                    <strong>Movie:</strong> {trip.movie.title}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {trip.date}
+                  </p>
+                  <p>
+                    <strong>Description:</strong> {trip.description}
+                  </p>
+                  <p>
+                    <strong>Destinations:</strong>
+                  </p>
+                  <ListGroup style={{ listStyle: 'none' }}>
+                    {/* Map all attributes of the trip */}
+                    {trip.locations.length > 0 ? trip.locations.map((locationObject, idx) => (
+                      <ListGroup.Item key={idx}>
+                        <ListGroup style={{ listStyle: 'none' }}>
+                          <ListGroup.Item>
+                            <strong>City:</strong> {locationObject.location.city},
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong> Country:</strong>{" "}
+                            {locationObject.location.country},
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong> Location Name:</strong>{" "}
+                            {locationObject.location.locationName}
+                          </ListGroup.Item>
+                        </ListGroup>
+                      </ListGroup.Item>
+                    )) : <p>No destinations for this trip</p>}
+                  </ListGroup>
+                </Card.Body>
+              </Card>
             ))}
           </>
         ) : (
           <div>Loading...</div>
         )}
-        {/* homebutton */}
-        <button onClick={navigateToHome}>Home</button>
       </div>
     </div>
   );
