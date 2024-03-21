@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from 'react-bootstrap';
 import { PropTypes } from "prop-types";
 import Card from "react-bootstrap/Card"
 import Navbar from "../Homepage/components/Navbar";
@@ -21,6 +22,25 @@ function TripDetails({ currentUser }) {
       .then((data) => setTrips(data))
       .catch((error) => console.error("Error fetching trips:", error));
   }, []);
+
+  //delete trips
+  const handleDeleteTrip = (tripId) => {
+    console.log("tripId",tripId);
+    fetch(`http://localhost:5191/trips/${currentUser.id}/${tripId}`, {
+      method: "DELETE",
+    })
+    .then((response) => {
+      console.log("response: ", response);
+      if (response.ok) {
+        setTrips(trips.filter((trip) => trip.id !== tripId));
+      } else {
+        console.error("failed to delete trip");
+      }
+    })
+    .catch((error) => {
+      console.error("Error occured deleting the trip", error);
+    });
+  };
 
   return (
     <div className="movie-details mx-auto" style={{ width: '80vw' }}>
@@ -71,6 +91,7 @@ function TripDetails({ currentUser }) {
                       </ListGroup.Item>
                     )) : <p>No destinations for this trip</p>}
                   </ListGroup>
+                  <Button onClick={() => handleDeleteTrip(trip.id)}>Delete</Button>
                 </Card.Body>
               </Card>
             ))}
