@@ -30,6 +30,7 @@ function App() {
       );
 
       if (response.ok) {
+        console.log("Checking login - success");
         const data = await response.json();
         setCurrentUser(data);
         navigate("/home");

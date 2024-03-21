@@ -59,7 +59,6 @@ function Userpage() {
       {users.length ? (
         users.map((user) => (
           <div key={user.id}>
-            <p>{user.id}</p>
             <p>{user.username}</p>
             <p>{user.email}</p>
             <button onClick={() => handleRemove(user.id)}>Remove</button>
