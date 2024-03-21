@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Userpage() {
   const [users, setUsers] = useState([]);
@@ -23,20 +24,45 @@ function Userpage() {
     fetchData();
   }, []);
 
-  const handleRemove = (event) => {
-    console.log(event.target.parentNode.firstChild.innerText);
+  const handleRemove = (userId) => {
+    console.log("target userId", userId);
+
+    const deleteUser = async () => {
+      console.log(`Removing user ${userId}`);
+      try {
+        const response = await fetch(
+          `http://localhost:5191/authentication/users/${userId}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (response.ok) {
+          console.log(`Removing user ${userId} - success`);
+          const newArrayOfUsers = users.filter((user) => user.id !== userId);
+          setUsers(newArrayOfUsers);
+        }
+      } catch (er) {
+        console.error(
+          `OBS!!! Something went wrong tring to delete the user ${userId}: ${er}`
+        );
+      }
+    };
+    deleteUser();
   };
 
   return (
     <>
-      <p>Userpage works</p>
-      {users ? (
+      <Link to="/home">
+        <span className="material-symbols-outlined">arrow_back</span>
+      </Link>
+      {users.length ? (
         users.map((user) => (
           <div key={user.id}>
             <p>{user.id}</p>
             <p>{user.username}</p>
             <p>{user.email}</p>
-            <button onClick={handleRemove}>Remove</button>
+            <button onClick={() => handleRemove(user.id)}>Remove</button>
           </div>
         ))
       ) : (
