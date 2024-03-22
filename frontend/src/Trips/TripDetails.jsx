@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card"
 import Navbar from "../Homepage/components/Navbar";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { getInitials } from "../utils/getInitials";
+import MapComponent from "../Map/MapComponent";
 function TripDetails({ currentUser }) {
   //add user as prop,
   //and access trips through user
@@ -87,6 +88,7 @@ function TripDetails({ currentUser }) {
                             <strong> Location Name:</strong>{" "}
                             {locationObject.location.locationName}
                           </ListGroup.Item>
+                          <MapComponent latitude={locationObject.location.latitude} longitude={locationObject.location.longitude}/>
                         </ListGroup>
                       </ListGroup.Item>
                     )) : <p>No destinations for this trip</p>}
