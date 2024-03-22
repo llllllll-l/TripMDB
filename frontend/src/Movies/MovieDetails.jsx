@@ -5,7 +5,7 @@ import Notification from "./Notification";
 import { Card, Button, ListGroup, Form } from "react-bootstrap";
 import { getInitials } from "../utils/getInitials";
 import Navbar from "../Homepage/components/Navbar";
-
+import MapComponent from "../Map/MapComponent";
 function MovieDetails({ movies, currentUser }) {
   const [showNotification, setShowNotification] = useState(false);
   const [movie, setMovie] = useState({});
@@ -158,8 +158,7 @@ function MovieDetails({ movies, currentUser }) {
 
                         <ListGroup.Item><p>City: {location.location.city}</p></ListGroup.Item>
                         <ListGroup.Item><p>Country: {location.location.country}</p></ListGroup.Item>
-                        <ListGroup.Item> <p>Latitude: {location.location.latitude}</p></ListGroup.Item>
-                        <ListGroup.Item> <p>Longitude: {location.location.longitude}</p></ListGroup.Item>
+                        <MapComponent latitude={location.location.latitude} longitude={location.location.longitude}/>
 
                       </ListGroup>
                     </ListGroup.Item>
